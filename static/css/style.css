@@ -881,6 +881,7 @@ body {
     height: 150%;
     top: 0%;
     z-index: 5;
+    display: none;
 }
 
 .product-hover-content div{
@@ -1146,6 +1147,10 @@ body {
     color: rgb(120,149,44);  
 }
 
+.baby-empathy-subtitle{
+    height: 165px;
+}
+
 .baby-empathy-titleDot img{
     width: 100%;
 }
@@ -1228,7 +1233,7 @@ body {
 }
 .baby-video-content{
     background: url(../images/img-video-bg.png) no-repeat center center;
-    background-size: cover;
+    background-size: 100% 100%;
     margin-top: 5%;
     width: 100%;
     height: 9%;
@@ -1259,7 +1264,7 @@ body {
 
 .baby-video-div{
     width: 22.9%;
-    margin-top: 3.5%;
+    margin-top: 2.5%;
     margin-left: 1.1%;
     display: inline-block;  
 }
@@ -1291,6 +1296,10 @@ body {
     top: 5%;
 }
 
+.baby-story-img img{
+    width: 100%;
+}
+
 .baby-story-close{
     position: absolute;
     right: 0%;
@@ -1307,6 +1316,10 @@ body {
     color: rgb(120,149,44);  
 }
 
+.baby-story-btns span{
+    color: rgb(120,149,44); 
+}
+
 
 .baby-story-comment{
     width: 81.7%;
@@ -1321,6 +1334,27 @@ body {
 
 .baby-story-send{
     margin:3% 7.15%;
+}
+
+.baby-video-overlay{
+    position: absolute;
+    width: 110%;
+    left: -5%;
+    height: 100%;
+    display: none;
+    top: 0%;
+    z-index: 100;
+    background-color: rgba(89,135,19,0.9);
+}
+
+.baby-video-flash{
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 10%;
+}
+
+..baby-video-flash img{
+    width: 100%;
 }
 /*login page*/
 /* =========================================================== */
@@ -1582,10 +1616,16 @@ input.pswInput {background-image: url(../images/img-login-psw.png);}
 
 .signup-baby-detail{
     margin-left: 3.66%;
-    padding: 2% 1%;
-    height: 3%;
+    height: 30%;
     width: 70%;
+    z-index: 10;
+    
+}
+
+.signup-baby-input{
+    padding: 2% 1%;
     background-color: #d6efb0;
+    height: 10%;
 }
 
 
@@ -1607,13 +1647,26 @@ input.pswInput {background-image: url(../images/img-login-psw.png);}
 }
 
 .signup-btns{
-    margin-top: 9.7%;
+    position: absolute;
+  width: 100%;
+  bottom: 2%;
+  z-index: 1;
 }
 
 .signup-btns div{
     width: 22.3%;
     margin-left: 4.03%;
     display: inline-block;
+}
+
+.signup-datepicker{
+      height: 65%;
+     margin-left: 15.4%;
+      width: 49.5%;
+      position: absolute;
+      top: 13%;
+      display: none;
+
 }
 
 @media (min-width: 640px) and (max-width: 1080px){
@@ -1714,14 +1767,16 @@ input.pswInput {background-image: url(../images/img-login-psw.png);}
 .brand-nav ul{
     position: absolute;
     width: 100%;
-    /*height: 100%;*/
-    top: 30%;
+    height: 100%;
+    top: 0%;
 }
 
 .brand-nav ul li{
     display: inline-block;
     vertical-align: center;
     width: 20%;
+    margin-top: 4%;
+    /*height: 100%;*/
     text-align: center;
     margin-left: 3%;
 }
@@ -1788,6 +1843,7 @@ input.pswInput {background-image: url(../images/img-login-psw.png);}
     position: absolute;
   top: 13.5%;
   width: 100%;
+  z-index: 10;
 }
 
 .brand-process ul li{
@@ -1801,6 +1857,10 @@ input.pswInput {background-image: url(../images/img-login-psw.png);}
 
 .brand-process ul li:first-child{
     margin-left: 8.35%;
+}
+
+.img-brand-process-dot{
+    cursor: pointer;
 }
 
 
@@ -1972,6 +2032,99 @@ input.pswInput {background-image: url(../images/img-login-psw.png);}
     
 }
 
+#showcase {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+#showcase li {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    float: left;    
+    list-style-type: none;  
+    text-align: center;
+}  
+
+#showcase section{
+      position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 170px;
+  height: 170px;
+  margin-left: -90px;
+  margin-top: -90px;
+  background-color: white;
+  background-size: 100%;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transition: all 300ms ease-in;
+  -moz-transition: all 300ms ease-in;
+  -ms-transition: all 300ms ease-in;
+  -o-transition: all 300ms ease-in;
+  transition: all 300ms ease-in;
+  -webkit-box-reflect: below 0 -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.3, transparent), to(white));
+} 
+
+
+
+#showcase li img {
+    width: 100%;
+    height: 100%;
+}
+
+.brand-honor{
+    height: 23.58%;
+}
+
+.honor-slide{
+    height: 50%;
+}
+
+.honor-slide-bar{
+    margin-top: 10%;
+    width: 90%;
+    margin-left: 5%;
+    position: relative;
+    padding-top: 0.7%;
+}
+
+.honor-slide-btn{
+    width: 15.4%;
+    position: absolute;
+    top: 0%;
+    left: 42.3%;
+}
+
+.brand-video-overlay,.brand-pic-overlay{
+    position: absolute;
+    width: 110%;
+    left: -5%;
+    height: 100%;
+    display: none;
+    top: 0%;
+    z-index: 100;
+    background-color: rgba(89,135,19,0.9);
+}
+
+.brand-video-flash,.brand-pic-big{
+    width: 80%;
+    margin-left: 10%;
+    top:100px;
+    position: relative;
+    /*margin-top: 10%;*/
+}
+
+.brand-video-flash img,.brand-pic-big img{
+    width: 100%;
+}
+
+/*.honor-slide-bar img{
+    width: 100%;
+}*/
+/*================================================================*/
 
 .search-content{
     background: url(../images/img-map-bg.png) no-repeat center center;
@@ -2139,6 +2292,7 @@ input.pswInput {background-image: url(../images/img-login-psw.png);}
 }
 
 
+
 }
 
 /* ========================================================================================================================== */
@@ -2293,6 +2447,7 @@ input.pswInput {background-image: url(../images/img-login-psw.png);}
     margin-right: 5%;
     margin-top: 3%;
 }
+
 
 
 .baby-empathy-subtitle p{
@@ -2877,6 +3032,7 @@ input.pswInput {background-image: url(../images/img-login-psw.png);}
 .power-more a{
     display: none;
 }
+
 
 }
 
