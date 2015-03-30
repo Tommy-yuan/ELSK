@@ -307,6 +307,16 @@ jQuery(document).ready(function($){
 		});
 	}
 
+	// $(".baby-scroll-thumb").udraggable({
+	// 	containment: 'parent',
+ //        drag: function(e, ui){
+ //        	var pos = ui.position,
+ //        	rang = $(".baby-scroll").height() - $(".baby-scroll-thumb").height(),
+ //        	per = pos/rang;
+        	
+ //        }
+
+	// })
 
 
 	//品牌页面 历程逻辑
