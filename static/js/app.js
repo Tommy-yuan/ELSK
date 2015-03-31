@@ -7,8 +7,8 @@ function resize(){
 		}else{
 			$(this).height($(window).width() * 470.0 / 1600);
 		}
-		
 	});
+
 }
 
 
@@ -66,6 +66,68 @@ jQuery(document).ready(function($){
 		}
 		
 	});
+	$(".header-banner").glide({
+		arrows:false,
+		navigation:false
+	});
+	// console.log($())
+	$(".left-overlay").scrollFollow({
+		container:'site-content',
+		callback:function(top){
+			console.log(top);
+		}
+	});
+
+	$(".right-overlay").scrollFollow({
+		container:'site-content'
+	});
+
+	var home_slider = $('.home-product-slider').glide({
+		autoplay:false,
+		arrows:false,
+		navigation:false,
+		circular:false,
+		afterTransition:function(){
+			$(".home-product-current").each(function() {
+				$(this).css("display","none");
+			});
+			$("#home-product"+(home_slider.current()-1)+"-current").css("display","block");
+		}
+	}).data('api_glide');
+
+	$(".home-product-left").click(function(){
+		home_slider.prev();
+	});
+	$(".home-product-right").click(function(){
+		home_slider.next();
+	});
+	$(".home-product-navItem").click(function() {
+		$(".home-product-current").each(function() {
+			$(this).css("display","none");
+		});
+		$(this).find('.home-product-current').css('display', 'block');
+		home_slider.jump($(this).attr('list'));
+	});
+
+	$(".home-step-step1-more").bind('mouseenter', function(event) {
+		$("#"+$(this).attr("id")+"_content").css('display', 'inline-block');
+	}).bind('mouseleave',function(e){
+		$("#"+$(this).attr("id")+"_content").css('display', 'none');
+	});
+
+	$(".home-banner-list").bind('mouseenter', function(event) {
+		$(".home-banner-main-hover").css('display','none');
+		$("."+$(this).attr("id")+"-hover").css('display', 'block');
+	}).bind('mouseleave',function(e){
+		// $("."+$(this).attr("id")+"-hover").css('display', 'none');
+	});
+
+	$(".home-banner-main-hover").bind('mouseleave', function(event) {
+		$(this).css('display', 'none');
+	});
+
+
+
 
 	//加载文章
 	var article = new EJS({url: 'js/baby-artical.ejs'}).render({"data":[{"image":"images/img-baby-article-image3.jpg"},{"image":"images/img-baby-article-image2.jpg"},{"image":"images/img-baby-article-image1.jpg"},{"image":"images/img-baby-article-image2.jpg"}]});
@@ -87,10 +149,6 @@ jQuery(document).ready(function($){
 	//加载门店列表
 	var storeList = new EJS({url: 'js/stores.ejs'}).render();
 	$("#store_list").html(storeList);
-
-	//加载视频裂变
-	$(".baby-video-series").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
-	$(".brand-video-series").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
 
 
 	//404页面返回首页
@@ -152,12 +210,39 @@ jQuery(document).ready(function($){
 			showOtherMonths:true,
 			yearRange: "c-10:c",
 			defaultDate:0,
+			dateFormat:'yy-mm-dd',
 			onSelect:function(date){
 				$("#signup_baby_birth").val(date);
 				$( ".signup-datepicker").css("display","none");
 			}
 		});
 	};
+
+	//注册页面逻辑
+	$(".signup_radio").change(function(event) {
+		$(".signup_radio").each(function() {
+			$(this).prop("checked",false);
+			$(this).parent().css('background-color', 'transparent');
+		});
+		$(this).prop("checked",true);
+		$(this).parent().css('background-color', '#d6efb0');
+		$(this).attr("id") == "signup_hasbord"?$(".signup-baby-detail").css("display","block"):$(".signup-baby-detail").css("display","none");
+
+	});
+
+	$(".aiheInput").bind('focus', function(event) {
+		$(this).css({
+			'border-color':'#78952c',
+			'color': '#78952c'
+		});
+		$(this).addClass('aiheiInputFouce');
+	}).bind('focusout', function(event) {
+		$(this).css({
+			'border-color':'#ababab',
+			'color': '#ababab'
+		});
+		$(this).removeClass('aiheiInputFouce');
+	});
 
 	
 	$("#signup_baby_birth").bind('focus',function(e){
@@ -177,25 +262,35 @@ jQuery(document).ready(function($){
 		$(".baby-story-overlay").css('display', 'none');
 	});
 
-	$(".brand-pic-right").click(function() {
-		
+	//baby 视频加载
+	$(".baby-video-series").find('ul').append('<li><div class="baby-video-page0"></div></li>');
+	$(".baby-video-page0").html(new EJS({url: 'js/baby-video-preview.ejs'}).render({"data":videoData}));
+
+	//baby 视频加载
+	// $(".baby-video-series").find('ul').append('<li><div class="baby-video-page0"></div></li>');
+	// $(".baby-video-page0").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
+
+	// $(".baby-video-series").find('ul').append('<li><div class="baby-video-page1"></div></li>');
+	// $(".baby-video-page1").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
+
+	var babyVideo = $(".baby-video-series").glide({
+		autoplay:false,
+		arrows:false,
+		navigation:false,
+		circular:false
+	}).data('api_glide');
+	
+	$(".baby-video-left").click(function(){
+		babyVideo.prev();
 	});
 
-	//视频浮层弹出
-	$(".baby-video-div").click(function(){
-		$(".brand-video-overlay").css('display','block');
+	$(".baby-video-right").click(function(){
+		babyVideo.next();
 	});
 
-	$(".brand-video-overlay").click(function(){
-		$(".brand-video-overlay").css('display', 'none');
-	});
-
-	$(".brand-pic-div").click(function(){
-		$(".brand-pic-overlay").css('display','block');
-	});
-
-	$(".brand-pic-overlay").click(function(){
-		$(".brand-pic-overlay").css('display', 'none');
+	$(".baby-video-flash").scrollFollow({
+		container:'baby_video_overlay',
+		offset:0
 	});
 
 	//品牌页面 荣誉滑动逻辑
@@ -228,15 +323,48 @@ jQuery(document).ready(function($){
 		});
 	}
 
-	
+	// $(".baby-scroll-thumb").udraggable({
+	// 	containment: 'parent',
+ //        drag: function(e, ui){
+ //        	var pos = ui.position,
+ //        	rang = $(".baby-scroll").height() - $(".baby-scroll-thumb").height(),
+ //        	per = pos/rang;
+
+ //        }
+
+	// })
+
 
 	//品牌页面 历程逻辑
+	var brandProcess = $(".brand-process-content").glide({
+		autoplay:false,
+		arrows:false,
+		navigation:false,
+		circular:false,
+		afterTransition:function(){
+			$(".brand-process").find($(".process-year")).find('li').find('img').each(function() {
+				$(this).attr('src', 'images/img-brand-process-dot.png');
+				if ($(this).attr("process-list") == brandProcess.current()) 
+				{
+					$(this).attr('src', 'images/img-brand-process-selected.png');
+				}
+			});
+		}
+	}).data('api_glide');
+
 	$(".img-brand-process-dot").click(function(event) {
-		$(".brand-process").find('li').find('img').each(function(index, el) {
+		$(".brand-process").find($(".process-year")).find('li').find('img').each(function() {
 			$(this).attr('src', 'images/img-brand-process-dot.png');
 		});
-
 		$(this).attr('src', 'images/img-brand-process-selected.png');
+		brandProcess.jump($(this).attr("process-list"));
+	});
+
+	$(".brand-process-left").click(function(){
+		brandProcess.prev();
+	});
+	$(".brand-process-right").click(function(){
+		brandProcess.next();
 	});
 
 	var honorSlideBegin = function(direction){
@@ -253,7 +381,125 @@ jQuery(document).ready(function($){
 		honorSlide.animate(direction);
 	}
 
-	
-	
+	$(".brand-video-flash").scrollFollow({
+		container:'brand_video_overlay',
+		offset:0
+	});
 
+	$(".brand-pic-big").scrollFollow({
+		container:'brand_pic_overlay',
+		offset:0
+	});
+
+	$(".brand-pic-series").find('ul').append('<li><div class="brand-pic-page0"></div></li>');
+	$(".brand-pic-page0").html(new EJS({url: 'js/brand-pic-preview.ejs'}).render());
+
+	$(".brand-pic-series").find('ul').append('<li><div class="brand-pic-page1"></div></li>');
+	$(".brand-pic-page1").html(new EJS({url: 'js/brand-pic-preview.ejs'}).render());
+
+	var brandPic = $(".brand-pic-series").glide({
+		autoplay:false,
+		arrows:false,
+		navigation:false,
+		circular:false
+	}).data('api_glide');
+	
+	$(".brand-pic-left").click(function(){
+		brandPic.prev();
+	});
+
+	$(".brand-pic-right").click(function(){
+		brandPic.next();
+	});
+
+
+	$(".brand-video-series").find('ul').append('<li><div class="brand-video-page0"></div></li>');
+	$(".brand-video-page0").html(new EJS({url: 'js/baby-video-preview.ejs'}).render({"data":videoData}));
+
+
+
+	// $(".brand-video-series").find('ul').append('<li><div class="brand-video-page1"></div></li>');
+	// $(".brand-video-page1").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
+
+	var brandVideo = $(".brand-video-series").glide({
+		autoplay:false,
+		arrows:false,
+		navigation:false,
+		circular:false
+	}).data('api_glide');
+	
+	$(".brand-video-left").click(function(){
+		brandVideo.prev();
+	});
+
+	$(".brand-video-right").click(function(){
+		brandVideo.next();
+	});
+	
+	//视频浮层弹出
+	$(".baby-video-div").click(function(){
+		$(".brand-video-overlay").css('display','block');
+		$(".baby-video-overlay").css('display','block');
+		// console.log(videoData[$(this).attr('list')].dom)
+		$(".brand-video-flash").empty();
+		$(".baby-video-flash").empty();
+		$(".brand-video-flash").append(videoData[$(this).attr('list')].dom);
+		$(".baby-video-flash").append(videoData[$(this).attr('list')].dom);
+	});
+
+	$(".baby-video-overlay").click(function(){
+		$(".baby-video-overlay").css('display', 'none');
+	});
+
+	$(".brand-video-overlay").click(function(){
+		$(".brand-video-overlay").css('display', 'none');
+	});
+
+	$(".brand-pic-div").click(function(){
+		$(".brand-pic-overlay").css('display','block');
+
+	});
+
+	$(".brand-pic-overlay").click(function(){
+		$(".brand-pic-overlay").css('display', 'none');
+	});
+	
+	//site map
+	$(".map_site_btn").click(function() {
+		$(".map-main-content").each(function() {
+			$(this).css("display","none");
+		});
+		$(".map_site_btn").each(function() {
+			$(this).css({
+				background: 'transparent url(../images/img-menu-button.png) no-repeat center center',
+				color: 'white'
+			});
+		});
+		$("#"+$(this).attr("id")+"_content").css('display', 'block');
+		$(this).css({
+			background: 'transparent url(../images/img-menu-button-hl.png) no-repeat center center',
+			color: 'rgb(120,149,44)'
+		});
+
+	});
+	
 });
+
+var videoData = [
+	{
+		'title':'东方卫视公益广告片 ：东方卫视明星主持为嗳发声：他们的世界等待你的温暖',
+		'dom':'<embed src="http://player.youku.com/player.php/sid/XOTIwMDgzNjg0/v.swf" allowFullScreen="true" quality="high" width="960" height="583" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>'
+	},
+	{
+		'title':'素人妈妈视频 ：这些素人妈妈中流行的榜样式育儿经，不知道你就OUT啦',
+		'dom':'<embed src="http://player.youku.com/player.php/sid/XOTIwMDgzMjI0/v.swf" allowFullScreen="true" quality="high" width="960" height="583" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>'
+	},
+	{
+		'title':'捐赠仪式视频 ：嗳暖人间——星爸辣妈让嗳星光熠熠，暖心更暖情',
+		'dom':'<embed src="http://player.youku.com/player.php/sid/XOTIwMDgyNjE2/v.swf" allowFullScreen="true" quality="high" width="960" height="583" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>'
+	},
+	{
+		'title':'当地探访视频 ：让嗳落地，让情怀开花，嗳的旅程有你不孤单',
+		'dom':'<embed src="http://player.youku.com/player.php/sid/XOTIwMDgyMjU2/v.swf" allowFullScreen="true" quality="high" width="960" height="583" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>'
+	}
+]
