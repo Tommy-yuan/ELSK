@@ -98,6 +98,10 @@
 							top: aniTop
 						}, options.speed, options.easing
 					);
+					if (options.callback) 
+					{
+						options.callback(aniTop);
+					};
 				}
 			}
 		};
@@ -235,6 +239,7 @@
 		options.onText = options.onText || 'Turn Slide Off';
 		options.offText = options.offText || 'Turn Slide On';
 		options.delay = options.delay || 0;
+		options.callback = false;
 		
 		this.each( function() 
 			{

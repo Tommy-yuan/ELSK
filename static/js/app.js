@@ -72,7 +72,10 @@ jQuery(document).ready(function($){
 	});
 	// console.log($())
 	$(".left-overlay").scrollFollow({
-		container:'site-content'
+		container:'site-content',
+		callback:function(top){
+			console.log(top);
+		}
 	});
 
 	$(".right-overlay").scrollFollow({
@@ -91,6 +94,7 @@ jQuery(document).ready(function($){
 			$("#home-product"+(home_slider.current()-1)+"-current").css("display","block");
 		}
 	}).data('api_glide');
+
 	$(".home-product-left").click(function(){
 		home_slider.prev();
 	});
@@ -107,10 +111,23 @@ jQuery(document).ready(function($){
 
 	$(".home-step-step1-more").bind('mouseenter', function(event) {
 		$("#"+$(this).attr("id")+"_content").css('display', 'inline-block');
-
 	}).bind('mouseleave',function(e){
 		$("#"+$(this).attr("id")+"_content").css('display', 'none');
 	});
+
+	$(".home-banner-list").bind('mouseenter', function(event) {
+		$(".home-banner-main-hover").css('display','none');
+		$("."+$(this).attr("id")+"-hover").css('display', 'block');
+	}).bind('mouseleave',function(e){
+		// $("."+$(this).attr("id")+"-hover").css('display', 'none');
+	});
+
+	$(".home-banner-main-hover").bind('mouseleave', function(event) {
+		$(this).css('display', 'none');
+	});
+
+
+
 
 	//加载文章
 	var article = new EJS({url: 'js/baby-artical.ejs'}).render({"data":[{"image":"images/img-baby-article-image3.jpg"},{"image":"images/img-baby-article-image2.jpg"},{"image":"images/img-baby-article-image1.jpg"},{"image":"images/img-baby-article-image2.jpg"}]});
@@ -132,10 +149,6 @@ jQuery(document).ready(function($){
 	//加载门店列表
 	var storeList = new EJS({url: 'js/stores.ejs'}).render();
 	$("#store_list").html(storeList);
-
-	//加载视频裂变
-	// $(".baby-video-series").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
-	// $(".brand-video-series").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
 
 
 	//404页面返回首页
@@ -249,13 +262,16 @@ jQuery(document).ready(function($){
 		$(".baby-story-overlay").css('display', 'none');
 	});
 
-
 	//baby 视频加载
 	$(".baby-video-series").find('ul').append('<li><div class="baby-video-page0"></div></li>');
-	$(".baby-video-page0").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
+	$(".baby-video-page0").html(new EJS({url: 'js/baby-video-preview.ejs'}).render({"data":videoData}));
 
-	$(".baby-video-series").find('ul').append('<li><div class="baby-video-page1"></div></li>');
-	$(".baby-video-page1").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
+	//baby 视频加载
+	// $(".baby-video-series").find('ul').append('<li><div class="baby-video-page0"></div></li>');
+	// $(".baby-video-page0").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
+
+	// $(".baby-video-series").find('ul').append('<li><div class="baby-video-page1"></div></li>');
+	// $(".baby-video-page1").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
 
 	var babyVideo = $(".baby-video-series").glide({
 		autoplay:false,
@@ -313,7 +329,7 @@ jQuery(document).ready(function($){
  //        	var pos = ui.position,
  //        	rang = $(".baby-scroll").height() - $(".baby-scroll-thumb").height(),
  //        	per = pos/rang;
-        	
+
  //        }
 
 	// })
@@ -396,11 +412,14 @@ jQuery(document).ready(function($){
 		brandPic.next();
 	});
 
-	$(".brand-video-series").find('ul').append('<li><div class="brand-video-page0"></div></li>');
-	$(".brand-video-page0").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
 
-	$(".brand-video-series").find('ul').append('<li><div class="brand-video-page1"></div></li>');
-	$(".brand-video-page1").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
+	$(".brand-video-series").find('ul').append('<li><div class="brand-video-page0"></div></li>');
+	$(".brand-video-page0").html(new EJS({url: 'js/baby-video-preview.ejs'}).render({"data":videoData}));
+
+
+
+	// $(".brand-video-series").find('ul').append('<li><div class="brand-video-page1"></div></li>');
+	// $(".brand-video-page1").html(new EJS({url: 'js/baby-video-preview.ejs'}).render());
 
 	var brandVideo = $(".brand-video-series").glide({
 		autoplay:false,
@@ -421,6 +440,11 @@ jQuery(document).ready(function($){
 	$(".baby-video-div").click(function(){
 		$(".brand-video-overlay").css('display','block');
 		$(".baby-video-overlay").css('display','block');
+		// console.log(videoData[$(this).attr('list')].dom)
+		$(".brand-video-flash").empty();
+		$(".baby-video-flash").empty();
+		$(".brand-video-flash").append(videoData[$(this).attr('list')].dom);
+		$(".baby-video-flash").append(videoData[$(this).attr('list')].dom);
 	});
 
 	$(".baby-video-overlay").click(function(){
@@ -433,14 +457,49 @@ jQuery(document).ready(function($){
 
 	$(".brand-pic-div").click(function(){
 		$(".brand-pic-overlay").css('display','block');
+
 	});
 
 	$(".brand-pic-overlay").click(function(){
 		$(".brand-pic-overlay").css('display', 'none');
 	});
 	
+	//site map
+	$(".map_site_btn").click(function() {
+		$(".map-main-content").each(function() {
+			$(this).css("display","none");
+		});
+		$(".map_site_btn").each(function() {
+			$(this).css({
+				background: 'transparent url(../images/img-menu-button.png) no-repeat center center',
+				color: 'white'
+			});
+		});
+		$("#"+$(this).attr("id")+"_content").css('display', 'block');
+		$(this).css({
+			background: 'transparent url(../images/img-menu-button-hl.png) no-repeat center center',
+			color: 'rgb(120,149,44)'
+		});
 
+	});
 	
-	
-
 });
+
+var videoData = [
+	{
+		'title':'东方卫视公益广告片 ：东方卫视明星主持为嗳发声：他们的世界等待你的温暖',
+		'dom':'<embed src="http://player.youku.com/player.php/sid/XOTIwMDgzNjg0/v.swf" allowFullScreen="true" quality="high" width="960" height="583" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>'
+	},
+	{
+		'title':'素人妈妈视频 ：这些素人妈妈中流行的榜样式育儿经，不知道你就OUT啦',
+		'dom':'<embed src="http://player.youku.com/player.php/sid/XOTIwMDgzMjI0/v.swf" allowFullScreen="true" quality="high" width="960" height="583" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>'
+	},
+	{
+		'title':'捐赠仪式视频 ：嗳暖人间——星爸辣妈让嗳星光熠熠，暖心更暖情',
+		'dom':'<embed src="http://player.youku.com/player.php/sid/XOTIwMDgyNjE2/v.swf" allowFullScreen="true" quality="high" width="960" height="583" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>'
+	},
+	{
+		'title':'当地探访视频 ：让嗳落地，让情怀开花，嗳的旅程有你不孤单',
+		'dom':'<embed src="http://player.youku.com/player.php/sid/XOTIwMDgyMjU2/v.swf" allowFullScreen="true" quality="high" width="960" height="583" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>'
+	}
+]
