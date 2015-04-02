@@ -3701,6 +3701,24 @@ input.pswInput {background-image: url(../images/img-login-psw.png);}
     display: none;
 }
 
+/*brand*/
+/* =========================================================== */
+
+.site-nav{
+    display: none;
+}
+
+.left-overlay{
+    display: none;
+}
+
+.right-overlay{
+    display: none;
+}
+
+.brand-nav{
+    display: none;
+}
 
 }
 
